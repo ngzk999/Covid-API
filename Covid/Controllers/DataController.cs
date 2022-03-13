@@ -46,6 +46,20 @@ namespace Covid.Controllers
             return latestMalaysiaData;
         }
 
+        [HttpGet("malaysiaLatestDeath")]
+        public ActionResult<Death> GetLatestMalaysiaDeathData()
+        {
+            Death latestMalaysiaDeathData = _retrieveService.GetLatestMalaysiaDeath();
+            return latestMalaysiaDeathData;
+        }
+
+        [HttpGet("stateLatestDeath")]
+        public ActionResult<List<Death>> GetLatestStateDeathData()
+        {
+            List<Death> latestStateDeathData = _retrieveService.GetLatestStateDeath();
+            return latestStateDeathData;
+        }
+
 
     }
 }

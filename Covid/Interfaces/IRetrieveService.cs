@@ -9,6 +9,8 @@ namespace Covid.Interfaces
         public Malaysia GetMalaysiaCovidDataByDate(MalaysiaDto malaysiaDto);
         public List<State> GetLatestStateCovidData();
         public Malaysia GetLatestMalaysiaCovidData();
+        public Death GetLatestMalaysiaDeath();
+        public List<Death> GetLatestStateDeath();
 
     }
 }

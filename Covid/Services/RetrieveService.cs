@@ -10,8 +10,12 @@ namespace Covid.Services
     {
         private readonly string stateUrl = "https://github.com/MoH-Malaysia/covid19-public/blob/main/epidemic/cases_state.csv";
         private readonly string malaysiaUrl = "https://github.com/MoH-Malaysia/covid19-public/blob/main/epidemic/cases_malaysia.csv";
+        private readonly string stateDeathUrl = "https://github.com/MoH-Malaysia/covid19-public/blob/main/epidemic/deaths_state.csv";
+        private readonly string malaysiaDeathUrl = "https://github.com/MoH-Malaysia/covid19-public/blob/main/epidemic/deaths_malaysia.csv";
         private List<State> stateList = new();
         private List<Malaysia> myList = new();
+        private List<Death> stateDeathList = new();
+        private List<Death> myDeathList = new();
         public RetrieveService()
         {
             HtmlWeb webSite = new();
@@ -96,6 +100,52 @@ namespace Covid.Services
 
                 this.myList.Add(malaysia);
             }
+
+            HtmlDocument stateDeathDocument = webSite.Load(this.stateDeathUrl);
+            var stateDeathDocumentList = stateDeathDocument.DocumentNode.SelectNodes("//tr[@class='js-file-line']").ToList();
+            for (int i = 1; i < stateDeathDocumentList.Count; i++)
+            {
+                string[] stateDeathDataTextArray = stateDeathDocumentList[i].InnerText.Split("\n");
+                Death stateDeath = new Death()
+                {
+                    Date = stateDeathDataTextArray[2].Trim(),
+                    StateName = stateDeathDataTextArray[3].Trim(),
+                    NewDeath = stateDeathDataTextArray[4].Trim(),
+                    BidDeath = stateDeathDataTextArray[5].Trim(),
+                    DodDeath = stateDeathDataTextArray[6].Trim(),
+                    BidDodDeath = stateDeathDataTextArray[7].Trim(),
+                    UnvaxDeath = stateDeathDataTextArray[8].Trim(),
+                    PartialVaxDeath = stateDeathDataTextArray[9].Trim(),
+                    FullyVaxDeath = stateDeathDataTextArray[10].Trim(),
+                    BoostedVaxDeath = stateDeathDataTextArray[11].Trim(),
+                    TatDeath = stateDeathDataTextArray[12].Trim()
+                };
+
+                this.stateDeathList.Add(stateDeath);
+            }
+
+            HtmlDocument myDeathDocument = webSite.Load(this.malaysiaDeathUrl);
+            var myDeathDocumentList = myDeathDocument.DocumentNode.SelectNodes("//tr[@class='js-file-line']").ToList();
+            for (int i = 1; i < myDeathDocumentList.Count; i++)
+            {
+                string[] myDeathDataTextArray = myDeathDocumentList[i].InnerText.Split("\n");
+                Death myDeath = new Death()
+                {
+                    Date = myDeathDataTextArray[2].Trim(),
+                    StateName = "",
+                    NewDeath = myDeathDataTextArray[3].Trim(),
+                    BidDeath = myDeathDataTextArray[4].Trim(),
+                    DodDeath = myDeathDataTextArray[5].Trim(),
+                    BidDodDeath = myDeathDataTextArray[6].Trim(),
+                    UnvaxDeath = myDeathDataTextArray[7].Trim(),
+                    PartialVaxDeath = myDeathDataTextArray[8].Trim(),
+                    FullyVaxDeath = myDeathDataTextArray[9].Trim(),
+                    BoostedVaxDeath = myDeathDataTextArray[10].Trim(),
+                    TatDeath = myDeathDataTextArray[11].Trim()
+                };
+
+                this.myDeathList.Add(myDeath);
+            }
         }
 
         public State GetCovidDataByStateAndDate(StateDto stateDto)
@@ -124,6 +174,22 @@ namespace Covid.Services
         {
             Malaysia result = myList[myList.Count - 1];
             return result;
+        }
+
+        public Death GetLatestMalaysiaDeath()
+        {
+            Death result = myDeathList[myDeathList.Count - 1];
+            return result;
+        }
+
+        public List<Death> GetLatestStateDeath()
+        {
+            List<Death> stateDeathData = new List<Death>();
+            for (int i = stateDeathList.Count - 16; i < stateDeathList.Count; i++)
+            {
+                stateDeathData.Add(stateDeathList[i]);
+            }
+            return stateDeathData;
         }
     }
 }
