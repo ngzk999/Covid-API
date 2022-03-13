@@ -109,5 +109,21 @@ namespace Covid.Services
             Malaysia result = myList.FirstOrDefault(x => x.Date == malaysiaDto.Date);
             return (result ?? null);
         }
+
+        public List<State> GetLatestStateCovidData()
+        {
+            List<State> stateData = new List<State>();
+            for (int i = stateList.Count-16; i < stateList.Count; i++)
+            {
+                stateData.Add(stateList[i]);
+            }
+            return stateData;
+        }
+
+        public Malaysia GetLatestMalaysiaCovidData()
+        {
+            Malaysia result = myList[myList.Count - 1];
+            return result;
+        }
     }
 }

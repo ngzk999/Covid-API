@@ -32,6 +32,20 @@ namespace Covid.Controllers
             return malaysiaData;
         }
 
+        [HttpGet("stateLatest")]
+        public ActionResult<List<State>> GetLatestStateData()
+        {
+            List<State> latestStateData = _retrieveService.GetLatestStateCovidData();
+            return latestStateData;
+        }
+
+        [HttpGet("malaysiaLatest")]
+        public ActionResult<Malaysia> GetLatestMalaysiaData()
+        {
+            Malaysia latestMalaysiaData = _retrieveService.GetLatestMalaysiaCovidData();
+            return latestMalaysiaData;
+        }
+
 
     }
 }
