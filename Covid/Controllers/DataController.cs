@@ -32,17 +32,17 @@ namespace Covid.Controllers
             return malaysiaData;
         }
 
-        [HttpGet("stateLatest")]
-        public ActionResult<List<State>> GetLatestStateData()
+        [HttpGet("stateLatestCases")]
+        public ActionResult<List<State>> GetLatestStateCases()
         {
             List<State> latestStateData = _retrieveService.GetLatestStateCovidData();
             return latestStateData;
         }
 
-        [HttpGet("malaysiaLatest")]
-        public ActionResult<Malaysia> GetLatestMalaysiaData()
+        [HttpGet("malaysiaLatestCases")]
+        public ActionResult<Malaysia> GetLatestMalaysiaCases()
         {
-            Malaysia latestMalaysiaData = _retrieveService.GetLatestMalaysiaCovidData();
+            Malaysia latestMalaysiaData = _retrieveService.GetLatestMalaysiaCasesData();
             return latestMalaysiaData;
         }
 
@@ -60,6 +60,19 @@ namespace Covid.Controllers
             return latestStateDeathData;
         }
 
+        [HttpGet("stateLatestData")]
+        public ActionResult<List<ReturnDto>> GetLatestStateData()
+        {
+            List<ReturnDto> latestStateData = _retrieveService.GetLatestStateData();
+            return latestStateData;
+        }
+
+        [HttpGet("malaysiaLatestData")]
+        public ActionResult<ReturnDto> GetLatestMalaysiaData()
+        {
+            ReturnDto latestMalaysiaData = _retrieveService.GetLatestMalaysiaData();
+            return latestMalaysiaData;
+        }
 
     }
 }

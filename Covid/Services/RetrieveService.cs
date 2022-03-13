@@ -170,7 +170,7 @@ namespace Covid.Services
             return stateData;
         }
 
-        public Malaysia GetLatestMalaysiaCovidData()
+        public Malaysia GetLatestMalaysiaCasesData()
         {
             Malaysia result = myList[myList.Count - 1];
             return result;
@@ -190,6 +190,42 @@ namespace Covid.Services
                 stateDeathData.Add(stateDeathList[i]);
             }
             return stateDeathData;
+        }
+
+        public ReturnDto GetLatestMalaysiaData()
+        {
+            ReturnDto result = new ReturnDto()
+            {
+                Date = myList[myList.Count - 1].Date,
+                StateName = "",
+                NewCases = myList[myList.Count - 1].NewCases,
+                RecoveredCases = myList[myList.Count - 1].RecoveredCases,
+                DeathCases = myDeathList[myDeathList.Count - 1].NewDeath
+            };
+
+            return result;
+        }
+
+        public List<ReturnDto> GetLatestStateData()
+        {
+            List<ReturnDto> results = new List<ReturnDto>();
+
+            for (int i = stateList.Count - 16; i < stateList.Count; i++)
+            {
+                ReturnDto result = new ReturnDto()
+                {
+                    Date = stateList[i].Date,
+                    StateName = stateList[i].StateName,
+                    NewCases = stateList[i].NewCases,
+                    RecoveredCases = stateList[i].RecoveredCases,
+                    DeathCases = stateDeathList
+                                    .FirstOrDefault(x => x.Date == stateList[i].Date && x.StateName == stateList[i].StateName).NewDeath
+                };
+
+                results.Add(result);
+            }
+
+            return results;
         }
     }
 }
