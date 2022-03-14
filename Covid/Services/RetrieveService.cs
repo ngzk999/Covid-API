@@ -14,8 +14,14 @@ namespace Covid.Services
         private readonly string malaysiaDeathUrl = "https://github.com/MoH-Malaysia/covid19-public/blob/main/epidemic/deaths_malaysia.csv";
         private List<State> stateList = new();
         private List<Malaysia> myList = new();
+
         private List<Death> stateDeathList = new();
         private List<Death> myDeathList = new();
+
+        private Malaysia currentMy = new Malaysia();
+        private Death currentMyDeath = new Death();
+        //private List<State> currentState = new List<State>;
+        //private List<Death> currentStateDeath = new List<Death>;
         public RetrieveService()
         {
             HtmlWeb webSite = new();
@@ -146,6 +152,9 @@ namespace Covid.Services
 
                 this.myDeathList.Add(myDeath);
             }
+
+            currentMy = myList[myList.Count - 1];
+            currentMyDeath = myDeathList[myDeathList.Count - 1];
         }
 
         public State GetCovidDataByStateAndDate(StateDto stateDto)
@@ -196,11 +205,11 @@ namespace Covid.Services
         {
             ReturnDto result = new ReturnDto()
             {
-                Date = myList[myList.Count - 1].Date,
+                Date = currentMy.Date,
                 StateName = "",
-                NewCases = myList[myList.Count - 1].NewCases,
-                RecoveredCases = myList[myList.Count - 1].RecoveredCases,
-                DeathCases = myDeathList[myDeathList.Count - 1].NewDeath
+                NewCases = currentMy.NewCases,
+                RecoveredCases = currentMy.RecoveredCases,
+                DeathCases = currentMyDeath.NewDeath
             };
 
             return result;
