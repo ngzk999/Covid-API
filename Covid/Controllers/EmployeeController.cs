@@ -18,11 +18,16 @@ namespace Covid.Controllers
         }
 
         [HttpPost]
-        public ActionResult InsertEmployeeData(EmployeeData employeeData)
+        public ActionResult<InsertReturnDto> InsertEmployeeData(EmployeeData employeeData)
         {
+            InsertReturnDto insertReturnDto = new InsertReturnDto();
+
             if (_employeeService.InsertEmployeeData(employeeData))
-                return Ok("Insert successfully");
-            return BadRequest("Failed to insert");
+                insertReturnDto.Status = "Ok";
+            else
+                insertReturnDto.Status = "Failed";
+
+            return insertReturnDto;
         }
     }
 }
