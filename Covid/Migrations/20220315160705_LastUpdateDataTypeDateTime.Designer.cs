@@ -3,6 +3,7 @@ using System;
 using Covid.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Covid.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220315160705_LastUpdateDataTypeDateTime")]
+    partial class LastUpdateDataTypeDateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
@@ -32,7 +34,7 @@ namespace Covid.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("Date");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Temperature")
                         .IsRequired()
